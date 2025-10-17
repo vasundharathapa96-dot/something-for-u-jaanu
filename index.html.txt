@@ -1,0 +1,75 @@
+<!-- Romantic Birthday Website for Iniyan (with 3 slides) --><!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Happy Birthday, Iniyan ❤</title>
+  <style>
+    :root {
+      --bg: #0b0216;
+      --accent: #ff6b8a;
+      font-family: 'Segoe UI', Roboto, system-ui, -apple-system, 'Helvetica Neue', Arial;
+    }
+    html,body {height:100%;margin:0;background:var(--bg);color:white;overflow:hidden;}
+    video.bg {position:fixed;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.4);z-index:0;}.slide {position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;z-index:2;opacity:0;pointer-events:none;transition:opacity 1s ease;}
+.slide.show {opacity:1;pointer-events:auto;}
+
+h1,h2 {margin:0 0 12px;animation:fadeIn 2s ease forwards;}
+p {max-width:700px;line-height:1.6;font-size:1.1rem;opacity:0;animation:fadeIn 3s ease 1.2s forwards;}
+.btn {margin-top:24px;padding:14px 28px;background:linear-gradient(90deg,var(--accent),#ff9eb3);border:none;border-radius:12px;font-weight:600;color:#2b0020;cursor:pointer;box-shadow:0 8px 20px rgba(255,107,138,0.25);transition:transform .2s;}
+.btn:hover {transform:scale(1.05);} 
+img.cake {max-width:300px;border-radius:16px;box-shadow:0 8px 25px rgba(0,0,0,0.6);margin-bottom:20px;animation:fadeIn 2s ease forwards;}
+
+@keyframes fadeIn {from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+/* Snowfall canvas */
+#snowCanvas {position:fixed;inset:0;pointer-events:none;z-index:1;}
+
+  </style>
+</head>
+<body>
+  <video class="bg" autoplay muted loop playsinline>
+    <source src="VID_20251017_153112_494.mp4" type="video/mp4">
+  </video><canvas id="snowCanvas"></canvas>
+
+  <!-- Slide 1: Intro -->  <div class="slide show" id="slide1">
+    <h1>SIR JI KA BIRTHDAY GIFT 🎁</h1>
+    <p>Click the button below to begin your surprise, meri minion 💛</p>
+    <button class="btn" id="toSlide2">CLICK TO BEGIN</button>
+  </div>  <!-- Slide 2: Cake -->  <div class="slide" id="slide2">
+    <img class="cake" src="https://images.unsplash.com/photo-1606312619347-9f0deedc8408?q=80&w=800&auto=format&fit=crop" alt="Chocolate Cake">
+    <h2>Kaato Isko! 🎂</h2>
+    <button class="btn" id="toSlide3">NEXT ➤</button>
+  </div>  <!-- Slide 3: Final reveal -->  <div class="slide" id="slide3">
+    <h2>Surprise My Jaanu 💕</h2>
+    <p>
+Suprise my jaanu, i love you so much, you make me wanna be a better person for you day by day, you make me want to stay with you forever and ever,I really love being with you, our little fights, our game nights, our movie nights as well — I love them all, and most of all, I love you, my love.
+
+Happy birthday meri minion 💛 I'll always want you to be by my side, and I want it to be you in every universe. </p>
+
+  </div>  <script>
+    const slides = [document.getElementById('slide1'), document.getElementById('slide2'), document.getElementById('slide3')];
+    const toSlide2 = document.getElementById('toSlide2');
+    const toSlide3 = document.getElementById('toSlide3');
+
+    toSlide2.addEventListener('click', ()=>{nextSlide(1);});
+    toSlide3.addEventListener('click', ()=>{nextSlide(2);startSnow();});
+
+    function nextSlide(index){
+      slides.forEach(s=>s.classList.remove('show'));
+      slides[index].classList.add('show');
+    }
+
+    // Snowfall animation for final slide
+    const canvas = document.getElementById('snowCanvas');
+    const ctx = canvas.getContext('2d');
+    let w,h,snowflakes,animationActive=false;
+    function initSnow(){w=canvas.width=innerWidth;h=canvas.height=innerHeight;snowflakes=[];for(let i=0;i<200;i++){snowflakes.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*3+1,d:Math.random()+1});}}
+    function drawSnow(){ctx.clearRect(0,0,w,h);ctx.fillStyle='white';ctx.beginPath();for(let i=0;i<snowflakes.length;i++){let f=snowflakes[i];ctx.moveTo(f.x,f.y);ctx.arc(f.x,f.y,f.r,0,Math.PI*2,true);}ctx.fill();moveSnow();}
+    let angle=0;function moveSnow(){angle+=0.01;for(let i=0;i<snowflakes.length;i++){let f=snowflakes[i];f.y+=Math.pow(f.d,2)+1;f.x+=Math.sin(angle)*0.5;if(f.y>h){snowflakes[i]={x:Math.random()*w,y:0,r:f.r,d:f.d};}}}
+    function updateSnow(){if(!animationActive)return;drawSnow();requestAnimationFrame(updateSnow);} 
+    function startSnow(){if(animationActive)return;animationActive=true;initSnow();updateSnow();}
+    window.addEventListener('resize',()=>{if(animationActive)initSnow();});
+  </script></body>
+</html>
